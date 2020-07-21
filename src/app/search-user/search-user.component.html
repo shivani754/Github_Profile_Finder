@@ -1,0 +1,58 @@
+<div class="container">
+    <br/>
+	<div class="row justify-content-center">
+                        <div class="col-12 col-md-10 col-lg-8">
+                            <form class="card card-sm">
+                                <div class="card-body row no-gutters align-items-center">
+                                    <div class="col-auto">
+                                        <i class="fas fa-search h4 text-body"></i>
+                                    </div>
+                                    <div class="col">
+                                        <input class="form-control form-control-lg form-control-borderless" placeholder="Search topics or keywords"  [(ngModel)]="search" name="user">
+                                    </div>
+                                    <div class="col-auto">
+                                        <button class="btn btn-lg btn-success" type="submit" (click)="searchUser()">Search</button>
+                                    </div>
+                                </div>
+                            </form>
+                            <!-- <p *ngFor="let user of users.items">
+                                {{user.login}}
+                            </p> -->
+                        </div>
+                    </div><br>
+    <ng-template #elseBlock1>
+         <p class="text gray-800"></p>
+    </ng-template>
+    <ng-template #elseBlock2>
+        <div class="row" *ngIf="divFlag==1">   
+            <div ng-repeat="user in users.items | orderBy:'score'">         
+                 <div class="col-sm">
+                    <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src={{user.avatar_url}} alt="Card image cap">
+                        <div class="card-body">
+                          <p class="card-text">{{user.login}}</p>
+                          <p class="text gray-800">{{user.score}}</p>
+                        </div>
+                      </div>
+                 </div>
+             </div>
+            </div> 
+   </ng-template>
+    <div *ngIf="userFlag==true;else elseBlock1">
+        <button class="btn btn-info" (click)="setDivFlag()">High to low</button>&nbsp;
+        <button class="btn btn-info">Low To High</button>
+    <div class="row" *ngIf="divFlag==0; else elseBlock2">   
+    <div *ngFor="let user of users?.items">         
+         <div class="col-sm">
+            <div class="card" style="width: 18rem;">
+                <img class="card-img-top" src={{user.avatar_url}} alt="Card image cap">
+                <div class="card-body">
+                  <p class="card-text">{{user.login}}</p>
+                  <p class="text gray-800">{{user.score}}</p>
+                </div>
+              </div>
+         </div>
+     </div>
+    </div> 
+    </div>
+</div>
