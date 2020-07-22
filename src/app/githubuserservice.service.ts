@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient,HttpErrorResponse} from '@angular/common/http';
+import {HttpClient,HttpErrorResponse, HttpParams} from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import {IUser} from './user';
 import {catchError} from 'rxjs/operators';
@@ -14,5 +14,15 @@ export class GithubuserserviceService {
     return this.http.get(this._url+value);
   }
 
-  
+  highToLow(user:string)
+  {
+    let params = new HttpParams();
+    params = params.append('sort', 'id');
+    params = params.append('order', 'desc');
+    return this.http.get("https://api.github.com/search/users?q="+user,{params: params});
+  }
+  userDetail(username:string)
+  {
+     return this.http.get("https://api.github.com/users/"+username);
+  }
 }

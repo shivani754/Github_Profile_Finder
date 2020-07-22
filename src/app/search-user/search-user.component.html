@@ -5,7 +5,7 @@
                             <form class="card card-sm">
                                 <div class="card-body row no-gutters align-items-center">
                                     <div class="col-auto">
-                                        <i class="fas fa-search h4 text-body"></i>
+                                        <i class=" fa fa-search"></i>
                                     </div>
                                     <div class="col">
                                         <input class="form-control form-control-lg form-control-borderless" placeholder="Search topics or keywords"  [(ngModel)]="search" name="user">
@@ -16,16 +16,16 @@
                                 </div>
                             </form>
                             <!-- <p *ngFor="let user of users.items">
-                                {{user.login}}
+                                {{user|json}}
                             </p> -->
                         </div>
                     </div><br>
     <ng-template #elseBlock1>
-         <p class="text gray-800"></p>
+         <p class="text gray-800">Loading..</p>
     </ng-template>
-    <ng-template #elseBlock2>
+    <!-- <ng-template #elseBlock2>
         <div class="row" *ngIf="divFlag==1">   
-            <div ng-repeat="user in users.items | orderBy:'score'">         
+            <div ng-repeat="user in users?.items | orderBy:'-id'">         
                  <div class="col-sm">
                     <div class="card" style="width: 18rem;">
                         <img class="card-img-top" src={{user.avatar_url}} alt="Card image cap">
@@ -37,22 +37,44 @@
                  </div>
              </div>
             </div> 
-   </ng-template>
+   </ng-template> -->
     <div *ngIf="userFlag==true;else elseBlock1">
-        <button class="btn btn-info" (click)="setDivFlag()">High to low</button>&nbsp;
+        <button class="btn btn-info" (click)="highToLow()" >High to low</button>&nbsp;
         <button class="btn btn-info">Low To High</button>
-    <div class="row" *ngIf="divFlag==0; else elseBlock2">   
-    <div *ngFor="let user of users?.items">         
+    <div class="row" >   
+    <div *ngFor="let user of users?.items | paginate:{id:'list_pagination',
+    itemsPerPage:perPage,
+    currentPage:page,
+    totalItems:30}">         
          <div class="col-sm">
-            <div class="card" style="width: 18rem;">
+            <div class="card" style="width: 18rem;" (click)="openModal(template,user.login)">
                 <img class="card-img-top" src={{user.avatar_url}} alt="Card image cap">
                 <div class="card-body">
                   <p class="card-text">{{user.login}}</p>
-                  <p class="text gray-800">{{user.score}}</p>
+                  <p class="text gray-800">{{user.id}}</p>
                 </div>
               </div>
          </div>
      </div>
     </div> 
+    <pagination-controls id="list_pagination" directionalLinks="true"  maxSize="5"[totalItems]="30" [(ngModel)]="currentPage" (pageChange)="setPage($event)"></pagination-controls>
     </div>
 </div>
+
+<ng-template #template>
+    <div class="modal-header " style="background-color: cadetblue;">
+      <h4 class="modal-title pull-left ">{{userDetail?.login}}</h4>
+      <i *ngIf="userDetail?.site_admin==false" class="fa fa-flag " style="font-size: 24px;" aria-hidden="true"></i>
+      <i *ngIf="userDetail?.site_admin==true" class="fa fa-flag-o " style="font-size: 24px;"aria-hidden="true"></i>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <b><span class="text ">Public_repos:</span></b><button class="btn btn-warning">{{userDetail?.public_repos}}</button><br>
+      <b><span class="text ">Followers:</span></b><p class="text text-gray-800">{{userDetail?.followers}}</p>
+      <b><span class="text ">Following:</span></b><p class="text text-gray-800">{{userDetail?.following}}</p>
+      <span class="text text-danger">Created_at:</span><p class="text text-gray-800">{{userDetail?.created_at | date }}</p>
+
+    </div>
+  </ng-template>
