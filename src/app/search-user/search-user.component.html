@@ -55,7 +55,7 @@
     itemsPerPage:perPage,
     currentPage:page,
     totalItems:30}">          -->
-    <div *ngFor="let user of users?.items">
+    <div *ngFor="let user of users">
          <div class="col-sm">
             <div class="card" style="width: 18rem;" (click)="openModal(template,user.login)">
                 <img class="card-img-top" src={{user.avatar_url}} alt="Card image cap">

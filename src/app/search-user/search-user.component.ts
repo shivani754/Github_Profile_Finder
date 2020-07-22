@@ -16,7 +16,7 @@ export class SearchUserComponent implements OnInit {
 
  
   public search;
-  public users;
+  public users:any;
   public userFlag=false;
   public userDetail;
   totalItems = 30;
@@ -35,7 +35,7 @@ export class SearchUserComponent implements OnInit {
   {
 
      this.userservice.searchUser1(this.search).subscribe(
-       data=>{this.users=data;}
+       (data:any)=>{this.users=data.items;}
        
      )
      this.userFlag=true;
