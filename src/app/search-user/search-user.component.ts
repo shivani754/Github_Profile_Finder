@@ -4,6 +4,9 @@ import {GithubuserserviceService} from '../githubuserservice.service';
 import { BsModalService} from 'ngx-bootstrap/modal';
 import {BsModalRef}  from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { JsonPipe } from '@angular/common';
+import { NgxSpinner } from 'ngx-spinner/lib/ngx-spinner.enum';
+import { NgxSpinnerService } from 'ngx-spinner';
+
 @Component({
   selector: 'app-search-user',
   templateUrl: './search-user.component.html',
@@ -20,12 +23,14 @@ export class SearchUserComponent implements OnInit {
   currentPage = 1;
   page=1;
   perPage=6;
+  notEmptyPost=true;
+  notscrolly=true;
+  count=1;
   //public divFlag=0;
   modalRef: BsModalRef;
-  constructor(private router:Router,private userservice:GithubuserserviceService,private modalService: BsModalService) { }
+  constructor(private router:Router,private userservice:GithubuserserviceService,private modalService: BsModalService,private spinner : NgxSpinnerService) { }
 
-  ngOnInit(): void {
-  }
+  
   searchUser()
   {
 
@@ -53,4 +58,30 @@ export class SearchUserComponent implements OnInit {
   {
     this.page=event;
   }
+  onScroll(){
+    if(this.notscrolly && this.notEmptyPost){
+          this.notscrolly=false;
+          console.log("scrolled");
+          this.spinner.show();
+          this.loadNextPost();
+    }
+  }
+ loadNextPost(){
+     
+     this.userservice.getnextpage(this.search,this.count).subscribe((result:any )=>{
+       const newPost = result;
+       console.log(newPost);
+       if(newPost.length == 0 ){
+         this.notEmptyPost=false;
+       }
+       Array.prototype.push.apply(this.users,result.items);
+       console.log(this.users,newPost.items);
+       this.count=this.count+1; 
+       this.spinner.hide();
+       this.notscrolly=true;
+     });
+
+ }
+ ngOnInit(): void {
+}
 }

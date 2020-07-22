@@ -6,8 +6,8 @@ import { AppComponent } from './app.component';
 import { SearchUserComponent } from './search-user/search-user.component';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { ModalModule } from 'ngx-bootstrap/modal';
-import { PaginationModule } from 'ngx-bootstrap/pagination';
-import { NgxPaginationModule } from 'ngx-pagination';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import {NgxSpinnerModule} from 'ngx-spinner';
 @NgModule({
   declarations: [
     AppComponent,
@@ -19,8 +19,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
     FormsModule,
     HttpClientModule,
     ModalModule.forRoot(),
-    PaginationModule.forRoot(),
-    NgxPaginationModule
+    InfiniteScrollModule,
+    NgxSpinnerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

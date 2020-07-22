@@ -25,4 +25,8 @@ export class GithubuserserviceService {
   {
      return this.http.get("https://api.github.com/users/"+username);
   }
+  getnextpage(user:string,count:any)
+  {
+    return this.http.get(this._url+user+"&page="+count);
+  }
 }

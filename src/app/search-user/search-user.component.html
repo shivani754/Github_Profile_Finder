@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" style="background-color:mistyrose;">
     <br/>
 	<div class="row justify-content-center">
                         <div class="col-12 col-md-10 col-lg-8">
@@ -38,14 +38,24 @@
              </div>
             </div> 
    </ng-template> -->
-    <div *ngIf="userFlag==true;else elseBlock1">
+   
+    <div class="container"*ngIf="userFlag==true;else elseBlock1">
+        <div
+        class="search-results"
+        infiniteScroll
+        [infiniteScrollDistance]="2"
+        [infiniteScrollThrottle]="50"
+        (scrolled)="onScroll()"
+        > 
         <button class="btn btn-info" (click)="highToLow()" >High to low</button>&nbsp;
         <button class="btn btn-info">Low To High</button>
+      
     <div class="row" >   
-    <div *ngFor="let user of users?.items | paginate:{id:'list_pagination',
+    <!-- <div *ngFor="let user of users?.items | paginate:{id:'list_pagination',
     itemsPerPage:perPage,
     currentPage:page,
-    totalItems:30}">         
+    totalItems:30}">          -->
+    <div *ngFor="let user of users?.items">
          <div class="col-sm">
             <div class="card" style="width: 18rem;" (click)="openModal(template,user.login)">
                 <img class="card-img-top" src={{user.avatar_url}} alt="Card image cap">
@@ -57,8 +67,8 @@
          </div>
      </div>
     </div> 
-    <pagination-controls id="list_pagination" directionalLinks="true"  maxSize="5"[totalItems]="30" [(ngModel)]="currentPage" (pageChange)="setPage($event)"></pagination-controls>
-    </div>
+    <!-- <pagination-controls id="list_pagination" directionalLinks="true"  maxSize="5"[totalItems]="30" [(ngModel)]="currentPage" (pageChange)="setPage($event)"></pagination-controls> -->
+
 </div>
 
 <ng-template #template>
